@@ -10,7 +10,7 @@ const app = express();
 connectDB();
 
 app.use(express.json());
-app.use(cookieParser());
+app.use(cookieParser("cookieSecret"));
 app.use("/api/contacts", require("./routes/contactRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
 

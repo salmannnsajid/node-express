@@ -4,7 +4,7 @@ const User = require("../models/user");
 const catchAsync = require("../helpers/catchAsync");
 
 const getUsers = catchAsync(async (req, res) => {
-  console.log(req.cookies);
+  console.log(req.signedCookies.testCookie);
   const users = await User.find();
 
   res.status(200).json(users);
@@ -67,6 +67,7 @@ const loginUser = catchAsync(async (req, res) => {
       // also as long as cookie is saved it will be sent back to server automatically unless its expired
       res.cookie("testCookie", "cookie value", {
         maxAge: 600000,
+        signed: true,
       });
       res.status(200).json({ accessToken });
     } else {
