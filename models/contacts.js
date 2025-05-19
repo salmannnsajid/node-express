@@ -8,8 +8,13 @@ const contactSchema = new mongoose.Schema(
       ref: "User",
     },
     name: { type: String, required: [true, "Plase add the name"] },
-    email: { type: String, required: [true, "Plase add the email"] },
+    email: {
+      type: String,
+      required: [true, "Plase add the email"],
+      unique: [true, "Email is already taken."],
+    },
     phone: { type: String, required: [true, "Plase add the phone"] },
+    image: { type: String, required: [true, "Plase add the image"] },
   },
   { timestamps: true }
 );

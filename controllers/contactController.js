@@ -27,9 +27,9 @@ const getContact = catchAsync(async (req, res) => {
 
 const createContact = catchAsync(async (req, res) => {
   const { name, email, phone } = req.body;
-  if (!name || !email || !phone) {
-    res.status(400);
-    throw new Error("Name is required");
+
+  if (!req.file) {
+    return res.status(400).json({ errors: ["Please upload an image"] });
   }
 
   const contact = await Contact.create({
@@ -37,6 +37,7 @@ const createContact = catchAsync(async (req, res) => {
     email,
     phone,
     user_id: req.user.id,
+    image: req.file.filename,
   });
   res.status(201).json({ data: "Created", contact });
 });

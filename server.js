@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const helmet = require("helmet");
 const cors = require("cors");
 const rateLimit = require("express-rate-limit");
+
 require("./middleware/passportAuth")(passport); // configure passport
 
 const connectDB = require("./config/db");
@@ -16,7 +17,6 @@ const limiter = rateLimit({
   limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
   standardHeaders: "draft-8", // draft-6: `RateLimit-*` headers; draft-7 & draft-8: combined `RateLimit` header
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
-  // store: ... , // Redis, Memcached, etc. See below.
 });
 
 const app = express();
@@ -31,6 +31,7 @@ app.use(cookieParser("cookieSecret"));
 app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(cors());
+app.use("/uploads", express.static("uploads"));
 
 app.use("/api/contacts", require("./routes/contactRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
