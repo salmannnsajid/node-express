@@ -63,9 +63,8 @@ const loginUser = catchAsync(async (req, res) => {
         { expiresIn: "1d" }
       );
 
-      // cookies send to browser and saved automatically
-      // also as long cookie is saved it will be sent back to server automatically
-
+      // cookies send to browser and saved automatically in browser
+      // also as long as cookie is saved it will be sent back to server automatically unless its expired
       res.cookie("testCookie", "cookie value", {
         maxAge: 600000,
       });
