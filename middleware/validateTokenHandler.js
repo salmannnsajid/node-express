@@ -7,15 +7,13 @@ const validateToken = catchAsync(async (req, res, next) => {
   let authHeaders = req.headers.Authorization || req.headers.authorization;
   if (authHeaders && authHeaders.startsWith("Bearer")) {
     token = authHeaders.split(" ")[1];
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
-      if (err) {
-        res.status(401);
-        throw new Error("Not authorized");
-      }
-
+    try {
+      const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
       req.user = decoded.user;
       next();
-    });
+    } catch (error) {
+      return res.status(403).json({ message: "Forbidden: Invalid token" });
+    }
   } else {
     res.status(401);
     throw new Error("Not authorized");

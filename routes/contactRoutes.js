@@ -6,11 +6,13 @@ const {
   updateContact,
   deleteContact,
 } = require("../controllers/contactController");
-const validateToken = require("../middleware/validateTokenHandler");
+const authenticateJwt = require("../middleware/authenticateJwt");
+// const validateToken = require("../middleware/validateTokenHandler");
 
 const router = express.Router();
 
-router.use(validateToken);
+// router.use(validateToken);
+router.use(authenticateJwt);
 
 router.route("/").get(getContacts).post(createContact);
 
